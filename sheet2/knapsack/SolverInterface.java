@@ -6,7 +6,8 @@ package knapsack;
  * @author Stephan Beyer
  */
 public interface SolverInterface<SolutionType> {
-	/**
+	
+    /**
 	 * Compute a solution for the given instance
 	 *
 	 * @param instance The given knapsack instance

@@ -10,17 +10,16 @@ public class Main {
 		long start = System.currentTimeMillis();
 		SolutionType solution = solver.solve(instance);
 		long end = System.currentTimeMillis();
+		
 		if (instance.getSize() <= 60) {
 			System.out.println("solution = " + solution);
 		}
 		System.out.println("value = " + solution.getValue());
 		System.out.printf("time = %.3fs\n", (end - start) / 1000.0);
-		assert solution.getInstance() == instance
-		  : "Solution is for another instance!";
+		
+		assert solution.getInstance() == instance : "Solution is for another instance!";
 		assert solution.isFeasible() : "Solution is not feasible!";
-		if (binary) {
-			assert solution.isBinary() : "Solution is not binary!";
-		}
+		assert !binary || solution.isBinary() : "Solution is not binary!";
 	}
 
 	public static <SolutionType extends GenericSolution<?>> void runSolver(SolverInterface<SolutionType> solver, Instance instance) {
@@ -45,7 +44,13 @@ public class Main {
 			System.out.println("# Capacity of knapsack: " + instance.getCapacity());
 			System.out.println("###############################################");
 			System.out.println();
-			// TODO: runSolver(new YourSolverHere(instance));
+			
+			// Call this for task P2 a)
+			runSolver(new FractionalSolver(), instance);
+
+			// Call this for task P2 b)
+			//runSolver(new BinaryHeuristicSolver(), instance);
+			
 			break;
 		default:
 			throw new IllegalArgumentException(usage);
