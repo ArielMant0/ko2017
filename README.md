@@ -3,56 +3,78 @@
 Programming exercise solutions for combinatorial optimization in the semester of 2017/18
 
 ## Total Points
-
-Theoretical:    10,5 / 14   ( 75 %)  
-Practical:        10 / 10   (100 %)  
+ 
+| Theoretical | Practical  |
+| ----------: | ---------: |
+| 10,5 / 14   |  10 / 10   |  
+|   75%       |    100%    |
 
 #### Sheet 1
 
-Theoretical:       ? / 15  
-Practical:         ? / 6
+| Theoretical | Practical  |
+| ----------: | ---------: |
+| 10,5 / 14   |  10 / 10   |  
+|   75%       |    100%    |
 
 #### Sheet 2
 
-Theoretical:       ? / 13  
-Practical:         ? / 20
+| Theoretical | Practical  |  
+| ----------: | ---------: |  
+|    ? / 15   |   10 / 6   |  
+|        0%   |     0%     |
 
 #### Sheet 3
 
-Theoretical:       ? / ?  
-Practical:         ? / ?
+| Theoretical | Practical  |  
+| ----------: | ---------: |  
+|    ? / 13   |   ? / 20   |  
+|        0%   |     0%     |
 
 #### Sheet 4
 
-Theoretical:       ? / ?  
-Practical:         ? / ?
+| Theoretical | Practical  |  
+| ----------: | ---------: |  
+|    ? / ?    |   ? / ?    |  
+|        0%   |     0%     |
 
 #### Sheet 5
 
-Theoretical:       ? / ?  
-Practical:         ? / ?
+| Theoretical | Practical  |  
+| ----------: | ---------: |  
+|    ? / ?    |   ? / ?    |  
+|        0%   |     0%     |
 
 #### Sheet 6
 
-Theoretical:       ? / ?  
-Practical:         ? / ?
+| Theoretical | Practical  |  
+| ----------: | ---------: |  
+|    ? / ?    |   ? / ?    |  
+|        0%   |     0%     |
 
 #### Sheet 7
 
-Theoretical:       ? / ?  
-Practical:         ? / ?
+| Theoretical | Practical  |  
+| ----------: | ---------: |  
+|    ? / ?    |   ? / ?    |  
+|        0%   |     0%     |
 
 #### Sheet 8
 
-Theoretical:       ? / ?  
-Practical:         ? / ?
+| Theoretical | Practical  |  
+| ----------: | ---------: |  
+|    ? / ?    |   ? / ?    |  
+|        0%   |     0%     |
 
 #### Sheet 9
 
-Theoretical:       ? / ?  
-Practical:         ? / ?
+| Theoretical | Practical  |  
+| ----------: | ---------: |  
+|    ? / ?    |   ? / ?    |  
+|        0%   |     0%     |
 
 #### Sheet 10
 
-Theoretical:       ? / ?  
-Practical:         ? / ?
+| Theoretical | Practical  |  
+| ----------: | ---------: |  
+|    ? / ?    |   ? / ?    |  
+|        0%   |     0%     |
