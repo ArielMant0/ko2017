@@ -9,3 +9,7 @@
 
 # Images #
 *.png
+
+# Corrections folder #
+**/corrections/sheet[1-9]/
+**/corrections/sheet[1-9][1-9]/

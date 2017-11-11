@@ -46,7 +46,7 @@ public class Main {
 			System.out.println("###############################################");
 			System.out.println();
 			
-			runSolver(new ChocoSolverB(), instance);
+			runSolver(new ChocoSolver(), instance);
 
 			break;
 		default:

@@ -1,17 +1,18 @@
 package knapsack;
 
 import org.chocosolver.solver.Model;
+import org.chocosolver.solver.Solver;
+import org.chocosolver.solver.ResolutionPolicy;
 import org.chocosolver.solver.variables.IntVar;
 import org.chocosolver.solver.variables.BoolVar;
-
-import java.util.stream.IntStream;
+import org.chocosolver.solver.objective.ObjectiveFactory;
 
 /**
  * CSP-Solver for binary knapsack problems
  *
- * @author Stephan Beyer
+ * @author Franziska Becker
  */
-public class ChocoSolverB implements SolverInterface<Solution> {
+public class ChocoSolver implements SolverInterface<Solution> {
 
     /**
      * Compute a solution for the given instance
@@ -25,6 +26,9 @@ public class ChocoSolverB implements SolverInterface<Solution> {
 
         // Uncomment this for a solution that does NOT use "knapsack(...)"
         //return withoutKnapsack(instance);
+
+        // Uncomment this for a solution that ONLY uses "solve(...)"
+        //return withSolve(instance);
     }
 
     /**
@@ -38,7 +42,7 @@ public class ChocoSolverB implements SolverInterface<Solution> {
         Solution optimum = new Solution(instance);
         int size = instance.getSize();
 
-        final Model model = new Model("WithKnapsack");
+        final Model model = new Model("With Knapsack");
 
         final IntVar[] occurences = model.intVarArray(size, 0, 1, true);
         final IntVar weightSum = model.intVar(1, instance.getCapacity());
@@ -52,7 +56,7 @@ public class ChocoSolverB implements SolverInterface<Solution> {
                 optimum.set(i, solution.getIntVal(occurences[i]));
             }
         } else {
-            System.out.println("Could not find a feasible solution!");
+            Logger.println("Could not find a feasible solution!");
         }
 
         return optimum;
@@ -69,7 +73,7 @@ public class ChocoSolverB implements SolverInterface<Solution> {
         Solution optimum = new Solution(instance);
         int size = instance.getSize();
 
-        final Model model = new Model("WithoutKnapsack");
+        final Model model = new Model("Without Knapsack");
         final IntVar[] occurences = model.intVarArray(size, 0, 1, true);
         final IntVar weightSum = model.intVar(1, instance.getCapacity());
         final IntVar valueSum = model.intVar(1, IntVar.MAX_INT_BOUND); 
@@ -80,12 +84,55 @@ public class ChocoSolverB implements SolverInterface<Solution> {
         model.scalar(occurences, instance.getValueArray(), "=", valueSum).post();
 
         final org.chocosolver.solver.Solution solution = model.getSolver().findOptimalSolution(valueSum, true);
+        
         if (solution != null) {
             for (int i = 0; i < size; i++) {
                 optimum.set(i, solution.getIntVal(occurences[i]));
             }
         } else {
-            System.out.println("Could not find a feasible solution!");
+            Logger.println("Could not find a feasible solution!");
+        }
+        return optimum;
+    }
+
+        /**
+     * Compute a solution for the given instance by
+     * using only the "solve(...)" function given by CHOCO
+     *
+     * @param instance The given knapsack instance
+     * @return The solution
+     */
+    private Solution withSolve(Instance instance) {
+        Solution optimum = new Solution(instance);
+        int size = instance.getSize();
+
+        final Model model = new Model("With Solve");
+        final IntVar[] occurences = model.intVarArray(size, 0, 1, true);
+        final IntVar weightSum = model.intVar(1, instance.getCapacity());
+        final IntVar valueSum = model.intVar(1, IntVar.MAX_INT_BOUND); 
+        
+        // Add constraint that E w_i*x_i = weightSum 
+        model.scalar(occurences, instance.getWeightArray(), "=", weightSum).post();
+        // Add constraint that E c_i*x_i = valueSum 
+        model.scalar(occurences, instance.getValueArray(), "=", valueSum).post();
+
+        Solver solver = model.getSolver();
+        // Create new objective manager that tries to maximze valueSum
+        solver.setObjectiveManager(ObjectiveFactory.makeObjectiveManager(valueSum, ResolutionPolicy.MAXIMIZE));
+
+        // Make a new solution from the constructed model
+        org.chocosolver.solver.Solution solution = new org.chocosolver.solver.Solution(model);
+        // As long as we find a better solution keep looking
+        while(solver.solve()) {
+            solution.record();
+        }
+
+        if (solution != null) {
+            for (int i = 0; i < size; i++) {
+                optimum.set(i, solution.getIntVal(occurences[i]));
+            }
+        } else {
+            Logger.println("Could not find a feasible solution!");
         }
         return optimum;
     }
