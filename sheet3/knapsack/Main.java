@@ -46,7 +46,11 @@ public class Main {
 			System.out.println("###############################################");
 			System.out.println();
 			
-			runSolver(new ChocoSolver(), instance);
+			// Solver for task a)
+			runSolver(new BnBBinarySolverAlt(), instance);
+
+			// Solver for task b) and c)
+			// runSolver(new ChocoSolver(), instance);
 
 			break;
 		default:

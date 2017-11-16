@@ -7,6 +7,11 @@ import org.chocosolver.solver.variables.IntVar;
 import org.chocosolver.solver.variables.BoolVar;
 import org.chocosolver.solver.objective.ObjectiveFactory;
 
+import org.chocosolver.solver.search.strategy.Search;
+import org.chocosolver.solver.search.strategy.selectors.values.IntDomainBest;
+import org.chocosolver.solver.search.strategy.selectors.values.IntDomainMax;
+import org.chocosolver.solver.search.strategy.selectors.variables.Largest;
+
 /**
  * CSP-Solver for binary knapsack problems
  *
@@ -95,7 +100,7 @@ public class ChocoSolver implements SolverInterface<Solution> {
         return optimum;
     }
 
-        /**
+    /**
      * Compute a solution for the given instance by
      * using only the "solve(...)" function given by CHOCO
      *
@@ -116,16 +121,20 @@ public class ChocoSolver implements SolverInterface<Solution> {
         // Add constraint that E c_i*x_i = valueSum 
         model.scalar(occurences, instance.getValueArray(), "=", valueSum).post();
 
-        Solver solver = model.getSolver();
-        // Create new objective manager that tries to maximze valueSum
-        solver.setObjectiveManager(ObjectiveFactory.makeObjectiveManager(valueSum, ResolutionPolicy.MAXIMIZE));
-
         // Make a new solution from the constructed model
         org.chocosolver.solver.Solution solution = new org.chocosolver.solver.Solution(model);
+        Solver solver = model.getSolver();
+             
+        // Set search strategy that tries to maximize valueSum
+        solver.setSearch(Search.intVarSearch(new Largest(), new IntDomainBest(), valueSum));
+
+        // Alternative Solutiuon: Create new objective manager that tries to maximze valueSum
+        // solver.setObjectiveManager(ObjectiveFactory.makeObjectiveManager(valueSum, ResolutionPolicy.MAXIMIZE));
+        
         // As long as we find a better solution keep looking
-        while(solver.solve()) {
-            solution.record();
-        }
+        while(solver.solve()) {}
+        // Record the best solution
+        solution.record();
 
         if (solution != null) {
             for (int i = 0; i < size; i++) {

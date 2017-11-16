@@ -3,8 +3,6 @@ package knapsack;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-import javafx.util.Pair;
-
 /**
  * Branch-and-Bound solver for Binary knapsack problems
  *
@@ -12,7 +10,7 @@ import javafx.util.Pair;
  */
 public class BnBBinarySolverAlt implements SolverInterface<Solution> {
 
-    private ArrayList<Pair<Integer, Double>> order;
+    private ArrayList<Pair> order;
     private int optimumValue;
 
 	/**
@@ -51,7 +49,7 @@ public class BnBBinarySolverAlt implements SolverInterface<Solution> {
         Solution sol1 = new Solution(solution);
 
         Solution sol2 = new Solution(solution);
-        sol2.set(order.get(index).getKey(), 1);
+        sol2.set(order.get(index).index, 1);
 
         if (sol2.isFeasible()) {
             if (calculateUpperBound(instance, sol1, index) > calculateUpperBound(instance, sol2, index)) {
@@ -81,7 +79,7 @@ public class BnBBinarySolverAlt implements SolverInterface<Solution> {
      * @return  the upperBound of the Solution
      */
     private int calculateUpperBound(Instance instance, Solution solution, int index) {
-        int upperBound = (int) (solution.getValue() + (order.get(index + 1).getValue() * (instance.getCapacity() - solution.getWeight())) + 0.5);
+        int upperBound = (int) (solution.getValue() + (order.get(index + 1).cw * (instance.getCapacity() - solution.getWeight())) + 0.5);
         return upperBound;
     }
 
@@ -100,7 +98,7 @@ public class BnBBinarySolverAlt implements SolverInterface<Solution> {
         // Fill up the knapsack until it's full, starting
         // with the most cost efficient item
         for (int i = 0; i < order.size() && optimum.isFeasible(); i++) {
-            int item = order.get(i).getKey();
+            int item = order.get(i).index;
             optimum.set(item, instance.getWeight(item) <= rest ? 1 : 0);
             rest = number - optimum.getWeight();
         }
@@ -114,22 +112,36 @@ public class BnBBinarySolverAlt implements SolverInterface<Solution> {
      * @param instance The given knapsack instance
      */
     private void sortItems(Instance instance) {
-        order = new ArrayList<Pair<Integer, Double>>();
+        order = new ArrayList<Pair>();
 
         for (int i = 0; i < instance.getSize(); i++) {
-            order.add(i, new Pair<Integer, Double>(i, ((double) instance.getValue(i)) / ((double) instance.getWeight(i))));
+            order.add(i, new Pair(i, (double) instance.getValue(i), (double) instance.getWeight(i)));
         }
 
-        order.sort(new Comparator<Pair<Integer, Double>>() {
+        order.sort(new Comparator<Pair>() {
             @Override
-            public int compare(Pair<Integer, Double> o1, Pair<Integer, Double> o2) {
-                if (o1.getValue() > o2.getValue())
-                    return -1;
-                else if (o1.getValue() < o2.getValue())
-                    return 1;
-                else
-                    return 0;
+            public int compare(Pair o1, Pair o2) {
+                return o1.cw > o2.cw ? -1 : (o1.cw < o2.cw ? 1 : 0);
             }
         });
+    }
+
+    /**
+     * Private class that holds an index and the computed
+     * value-to-weight ratio of that item.
+     *
+     */
+    private class Pair implements Comparable<Pair> {
+        public double cw;
+        public int index;
+
+        public Pair(int i, double value, double weight) {
+            cw = value / weight;
+            index = i;
+        }
+
+        public int compareTo(Pair other) {
+            return (int) (this.cw - other.cw);
+        }
     }
 }
