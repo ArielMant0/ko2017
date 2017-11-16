@@ -30,10 +30,10 @@ public class ChocoSolver implements SolverInterface<Solution> {
         return withKnapsack(instance);
 
         // Uncomment this for a solution that does NOT use "knapsack(...)"
-        //return withoutKnapsack(instance);
+        // return withoutKnapsack(instance);
 
         // Uncomment this for a solution that ONLY uses "solve(...)"
-        //return withSolve(instance);
+        // return withSolve(instance);
     }
 
     /**
@@ -126,15 +126,16 @@ public class ChocoSolver implements SolverInterface<Solution> {
         Solver solver = model.getSolver();
              
         // Set search strategy that tries to maximize valueSum
-        solver.setSearch(Search.intVarSearch(new Largest(), new IntDomainBest(), valueSum));
+        //solver.setSearch(Search.intVarSearch(new Largest(), new IntDomainBest(), valueSum));
 
         // Alternative Solutiuon: Create new objective manager that tries to maximze valueSum
-        // solver.setObjectiveManager(ObjectiveFactory.makeObjectiveManager(valueSum, ResolutionPolicy.MAXIMIZE));
+        solver.setObjectiveManager(ObjectiveFactory.makeObjectiveManager(valueSum, ResolutionPolicy.MAXIMIZE));
         
         // As long as we find a better solution keep looking
-        while(solver.solve()) {}
-        // Record the best solution
-        solution.record();
+        while(solver.solve()) {
+            // Record the best solution
+            solution.record();
+        }
 
         if (solution != null) {
             for (int i = 0; i < size; i++) {

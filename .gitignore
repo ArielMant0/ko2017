@@ -3,6 +3,7 @@
 
 # Documents #
 *.pdf
+*.odt
 
 # Archives #
 *.zip
