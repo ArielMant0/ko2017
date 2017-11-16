@@ -35,31 +35,31 @@ public class BnBBinarySolverAlt implements SolverInterface<Solution> {
      * Determines the optimal Solution to the problem using recursion
      * @param instance	the given knapsack Problem
      * @param solution  A Solution to the Problem
-     * @param k how many items can still be put into the knapsack
+     * @param index which item is going to be put into the knapsack
      * @return  the optimal Solution
      */
-    private Solution recSolve(Instance instance, Solution solution, int k) {
-        if (k == order.size() - 1) {
+    private Solution recSolve(Instance instance, Solution solution, int index) {
+        if (index == order.size() - 1) {
             if (solution.getValue() > optimumValue) {
                 optimumValue = solution.getValue();
             }
             return solution;
-        } else if (calculateUpperBound(instance, solution, k - 1) < optimumValue) {
+        } else if (calculateUpperBound(instance, solution, index - 1) < optimumValue) {
             return solution;
         }
 
         Solution sol1 = new Solution(solution);
 
         Solution sol2 = new Solution(solution);
-        sol2.set(order.get(k).getKey(), 1);
+        sol2.set(order.get(index).getKey(), 1);
 
         if (sol2.isFeasible()) {
-            if (calculateUpperBound(instance, sol1, k) > calculateUpperBound(instance, sol2, k)) {
-                sol1 = recSolve(instance, sol1, k + 1);
-                sol2 = recSolve(instance, sol2, k + 1);
+            if (calculateUpperBound(instance, sol1, index) > calculateUpperBound(instance, sol2, index)) {
+                sol1 = recSolve(instance, sol1, index + 1);
+                sol2 = recSolve(instance, sol2, index + 1);
             } else {
-                sol2 = recSolve(instance, sol2, k + 1);
-                sol1 = recSolve(instance, sol1, k + 1);
+                sol2 = recSolve(instance, sol2, index + 1);
+                sol1 = recSolve(instance, sol1, index + 1);
             }
 
             if (sol1.getValue() > sol2.getValue()) {
@@ -68,7 +68,7 @@ public class BnBBinarySolverAlt implements SolverInterface<Solution> {
                 return sol2;
             }
         } else {
-            sol1 = recSolve(instance, new Solution(sol1), k + 1);
+            sol1 = recSolve(instance, new Solution(sol1), index + 1);
             return sol1;
         }
     }
@@ -77,11 +77,11 @@ public class BnBBinarySolverAlt implements SolverInterface<Solution> {
      * Calculates the UpperBound of a given Solution
      * @param instance the knapsack instance
      * @param solution the solution for which the upper bound shall be calculated
-     * @param k gives the information how many items are still left
+     * @param index which item is going to be put into the knapsack
      * @return  the upperBound of the Solution
      */
-    private int calculateUpperBound(Instance instance, Solution solution, int k) {
-        int upperBound = (int) (solution.getValue() + (order.get(k + 1).getValue() * (instance.getCapacity() - solution.getWeight())) + 0.5);
+    private int calculateUpperBound(Instance instance, Solution solution, int index) {
+        int upperBound = (int) (solution.getValue() + (order.get(index + 1).getValue() * (instance.getCapacity() - solution.getWeight())) + 0.5);
         return upperBound;
     }
 
