@@ -61,11 +61,23 @@ public class SkyscSolver {
             // We can always see the first skyscraper
             model.and(north[0][i], east[i][size-1], south[size-1][i], west[i][0]).post();
 
-            // Sum over N/E/S/W row must be identical to given number 
-            model.sum(north[i], "=", nvals[i]).post();
-            model.sum(east[i], "=", evals[i]).post();
-            model.sum(south[i], "=", svals[i]).post();
-            model.sum(west[i], "=", wvals[i]).post();
+            // Sum over N/E/S/W row must be identical to given the number 
+            if (evals[i] > 0) model.sum(east[i], "=", evals[i]).post();
+            if (wvals[i] > 0) model.sum(west[i], "=", wvals[i]).post();
+            
+            BoolVar tmp[] = new BoolVar[size];
+            if (nvals[i] > 0) {
+                for (int k = 0; k < size; k++) {
+                    tmp[k] = north[k][i];
+                }
+                model.sum(tmp, "=", nvals[i]).post();
+            }
+            if (svals[i] > 0) {
+                for (int k = 0; k < size; k++) {
+                    tmp[k] = south[k][i];
+                }
+                model.sum(tmp, "=", svals[i]).post();
+            }
 
             for (int j = 0; j < size; j++) {
                 // Fixed fields
@@ -79,35 +91,24 @@ public class SkyscSolver {
                 );
 
                 // Vertical rows are all made up of different values
-                //model.arithm(x[(i+size-1)%size][j], "!=", x[i][j]).post();
+                model.arithm(x[(i+size+1)%size][j], "!=", x[i][j]).post();
 
                 // North
-                for(int k = 0; k < i; k++) {
-                    model.reification(
-                        north[i][j],
-                        model.arithm(x[k][j], "<", x[i][j])
-                    );
+                for (int k = 0; k < i; k++) {
+                    // x[k][j] < x[i][j] <=> north[i][j]
+                    model.reifyXltY(x[k][j], x[i][j], north[i][j]);
                 }
                 // West
-                for(int k = 0; k < j; k++) {
-                    model.reification(
-                        west[i][j],
-                        model.arithm(x[i][k], "<", x[i][j])
-                    );
+                for (int k = 0; k < j; k++) {
+                    model.reifyXltY(x[i][k], x[i][j], west[i][j]);
                 }
                 // South
-                for(int k = i+1; k < size; k++) {
-                    model.reification(
-                        south[i][j],
-                        model.arithm(x[k][j], "<", x[i][j])
-                    );
+                for (int k = i+1; k < size; k++) {
+                    model.reifyXltY(x[k][j], x[i][j], south[i][j]);
                 }
                 // East
-                for(int k = j+1; k < size; k++) {
-                    model.reification(
-                        east[i][j],
-                        model.arithm(x[i][k], "<", x[i][j])
-                    );
+                for (int k = j+1; k < size; k++) {
+                    model.reifyXltY(x[i][k], x[i][j], east[i][j]);
                 }
             }
         }
@@ -129,10 +130,8 @@ public class SkyscSolver {
                 }
             }
             instance.setSolution(solutionArray);
-            System.out.println("------- solution number " + cnt + "-------");
+            System.out.println("------- solution number " + cnt++ + "-------");
             instance.printSolution();
-
-            ++cnt;
         }
     }
 }
