@@ -6,6 +6,7 @@ import org.chocosolver.solver.Solver;
 import org.chocosolver.solver.constraints.Constraint;
 import org.chocosolver.solver.variables.BoolVar;
 import org.chocosolver.solver.variables.IntVar;
+import org.chocosolver.solver.search.limits.SolutionCounter;
 import org.chocosolver.util.tools.ArrayUtils;
 
 import java.io.IOException;
@@ -53,6 +54,9 @@ public class SkyscSolver {
         BoolVar south[][] = model.boolVarMatrix(size, size);
         BoolVar west[][] = model.boolVarMatrix(size, size);
 
+        // Vertical rows are all made up of different values
+        IntVar column[] = new IntVar[size];
+
         // 3. Add constraints
         for (int i = 0; i < size; i++) {
             // All number in a row must be different
@@ -62,8 +66,10 @@ public class SkyscSolver {
             model.and(north[0][i], east[i][size-1], south[size-1][i], west[i][0]).post();
 
             // Sum over N/E/S/W row must be identical to given the number 
-            if (evals[i] > 0) model.sum(east[i], "=", evals[i]).post();
-            if (wvals[i] > 0) model.sum(west[i], "=", wvals[i]).post();
+            if (evals[i] > 0)
+                model.sum(east[i], "=", evals[i]).post();
+            if (wvals[i] > 0)
+                model.sum(west[i], "=", wvals[i]).post();
             
             BoolVar tmp[] = new BoolVar[size];
             if (nvals[i] > 0) {
@@ -90,34 +96,87 @@ public class SkyscSolver {
                     model.and(north[i][j], east[i][j], south[i][j], west[i][j])
                 );
 
-                // Vertical rows are all made up of different values
-                model.arithm(x[(i+size+1)%size][j], "!=", x[i][j]).post();
+                column[j] = x[j][i];              
 
                 // North
-                for (int k = 0; k < i; k++) {
-                    // x[k][j] < x[i][j] <=> north[i][j]
-                    model.reifyXltY(x[k][j], x[i][j], north[i][j]);
+                IntVar temp[] = new IntVar[i+1];
+                for (int k = 0; k <= i; k++) {
+                    temp[k] = x[k][j];
                 }
+                model.ifThen(
+                    north[i][j],
+                    model.max(x[i][j], temp)
+                );
+                
                 // West
-                for (int k = 0; k < j; k++) {
-                    model.reifyXltY(x[i][k], x[i][j], west[i][j]);
+                temp = new IntVar[j+1];
+                for (int k = 0; k <= j; k++) {
+                    temp[k] = x[i][k];
                 }
+                model.ifThen(
+                    west[i][j],
+                    model.max(x[i][j], temp)
+                );
+
                 // South
-                for (int k = i+1; k < size; k++) {
-                    model.reifyXltY(x[k][j], x[i][j], south[i][j]);
+                temp = new IntVar[size-i];
+                for (int k = i; k < size; k++) {
+                    temp[k-i] = x[k][j];
                 }
+                model.ifThen(
+                    south[i][j],
+                    model.max(x[i][j], temp)
+                );
+
                 // East
-                for (int k = j+1; k < size; k++) {
-                    model.reifyXltY(x[i][k], x[i][j], east[i][j]);
+                temp = new IntVar[size-j];
+                for (int k = j; k < size; k++) {
+                    temp[k-j] = x[i][k];
                 }
+                model.ifThen(
+                    east[i][j],
+                    model.max(x[i][j], temp)
+                );
+
+                // Alternative: more constraints, but shorter and without the temp array
+                // // North
+                // for (int k = 0; k < i; k++) {
+                //     model.ifThen(
+                //         north[i][j],
+                //         model.arithm(x[k][j], "<", x[i][j])
+                //     );
+                // }
+                // // West
+                // for (int k = 0; k < j; k++) {
+                //     model.ifThen(
+                //         west[i][j],
+                //         model.arithm(x[i][k], "<", x[i][j])
+                //     );
+                // }
+                // // South
+                // for (int k = i+1; k < size; k++) {
+                //     model.ifThen(
+                //         south[i][j],
+                //         model.arithm(x[k][j], "<", x[i][j])
+                //     );
+                // }
+                // // East
+                // for (int k = j+1; k < size; k++) {
+                //     model.ifThen(
+                //         east[i][j],
+                //         model.arithm(x[i][k], "<", x[i][j])
+                //     );
+                // }
             }
+            model.allDifferent(column).post();
         }
 
-        // 4. Get solver and solve model
-        Solver solver = model.getSolver();
-        List<Solution> solutions = solver.findAllSolutions();
+        // 4. Solve model
+        // List<Solution> solutions = model.getSolver().findAllSolutions();
 
-        solver.printStatistics();
+        // You may want to limit the number of solution when using the '6x6_extreme' instance
+        // because, for me at least, that one made Java's memory explode (or set memory max higher, might still work then)
+        // List<Solution> solutions = model.getSolver().findAllSolutions(new SolutionCounter(model, 20));
 
         // 5. Print solutions
         System.out.println("Number of solutions: " + solutions.size());
