@@ -15,12 +15,27 @@ public class SimulatedAnnealing implements SolverInterface<Solution> {
     // Random number generator
     private Random generator;
 
+    ///////////////////////////////
+    //  Algorithm Configuration  //
+    ///////////////////////////////
+
+    // Used for the recursive cooling function, saves time
     private int lastIter;
 
-    private final int MAX_ITERATION = 500000;
-    private final double ALPHA = 0.9;
-    private final byte DENOM = 1;
-    private final byte INITIAL = 1;
+    // Max number of iterations and max milliseconds 
+    private static final int MAX_ITERATION = 500000;
+    private static final int MAX_TIME = 2000;
+
+    // Alpha used for the recursive cooling function
+    private static final double ALPHA = 0.9;
+    
+    // Which cooling function and which initial solution to use
+    private static final byte DENOM = 0;
+    private static final byte INITIAL = 0;
+    
+    // Whether to use time as a stop criterion or to look
+    // at iteration count and last improvement
+    private static final boolean USE_TIME = true;
 
     public Solution solve(Instance instance) {
         lastIter = MAX_ITERATION / 2;
@@ -31,9 +46,9 @@ public class SimulatedAnnealing implements SolverInterface<Solution> {
         generateInitialSolution(instance);
 
         int lastImprovement = 0;
-        int threshold = MAX_ITERATION / 5;
+        long start = System.currentTimeMillis();
 
-        for (int index = 0; index < MAX_ITERATION && lastImprovement < threshold; index++) {
+        for (int index = 0; !stop(index, lastImprovement, start); index++) {
             Solution next = getNeighbourSolution(instance);
             if (generator.nextDouble() < Math.min(1.0, bound(index, next))) {
                 currentSol = next;
@@ -49,13 +64,20 @@ public class SimulatedAnnealing implements SolverInterface<Solution> {
         return bestSol;
     }
 
+    private boolean stop(int index, int lastImprovement, long start) {
+        if (USE_TIME)
+            return System.currentTimeMillis() - start >= MAX_TIME;
+        else
+            return index >= MAX_ITERATION || lastImprovement >= MAX_ITERATION / 5;
+    }
+
     private Solution getNeighbourSolution(Instance instance) {
         Solution solution = new Solution(instance);
-
         // Choose a random item to take/leave
         int index = generator.nextInt(instance.getSize());
         // Decide whether to take item[index] or not (~ 50%)
         int newValue = generator.nextBoolean() ? 1 : -1;
+
         solution.set(index, newValue);
 
         return solution;
@@ -137,11 +159,11 @@ public class SimulatedAnnealing implements SolverInterface<Solution> {
     }
 
     public void printSettings(int start) {
-        System.out.println("\n---------- Simulated Annealing Settings ----------");
-        System.out.println("  Max Iteration = " + MAX_ITERATION);
-        System.out.println("  Denominator = " + denominatorString(start));
-        System.out.println("  Initial Solution = " + initialSolutionString());
-        System.out.println("--------------------------------------------------\n");
+        Logger.println("\n---------- Simulated Annealing Settings ----------");
+        Logger.println("  Max Iteration = " + MAX_ITERATION);
+        Logger.println("  Denominator = " + denominatorString(start));
+        Logger.println("  Initial Solution = " + initialSolutionString());
+        Logger.println("--------------------------------------------------\n");
     }
 
     public String denominatorString(int start) {

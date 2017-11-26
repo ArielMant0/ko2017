@@ -1,0 +1,112 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{fullpage} % Package to use full page
+\usepackage{parskip} % Package to tweak paragraph skipping
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+
+\usepackage{palatino} % Use the Palatino font by default
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage[singlespacing]{setspace}
+
+\title{\vspace{-2.5cm}Simulated Annealing Resultate}
+\author{Franziska Becker}
+\date{26.11.2017}
+
+\makeatletter
+\def\hlinewd#1{
+  \noalign{\ifnum0=`}\fi\hrule \@height #1 \futurelet
+  \reserved@a\@xhline
+}
+\makeatother
+
+\begin{document}
+
+\maketitle
+
+\section{Parameter-Konfigurationen}
+
+Zunächst werden alle Parameter-Konfigurationen aufgezählt und erläutert:
+\begin{enumerate}
+    \item Abkühlungsfunktion
+      \begin{enumerate}
+        \item Bezeichner: \textbf{square} \(t_i = i^2\)
+            \item Bezeichner: \textbf{recursive} \(t_0 = \frac{max~iterations}{2}, ~t_i = t_{i-1}\alpha\)
+      \end{enumerate}
+    \item Startlösung
+      \begin{enumerate}
+        \item Bezeichner: \textbf{cheapest} Sortiere Elemente nach nicht-aufsteigendem Nutzen \(\frac{c_1}{w_1} \geq \frac{c_2}{w_2} \geq \dots \geq \frac{c_n}{w_n}\) und packe davon ausgehend solange Elemente nacheinander ein, bis der Rucksack voll ist.
+            \item Bezeichner: \textbf{lightest} Sortiere Elemente nach nicht-absteigendem Gewicht \(w_1 \leq w_2 \leq \dots \leq w_n\) und packe davon ausgehend solange Elemente nacheinander ein, bis der Rucksack voll ist.
+            \item Bezeichner: \textbf{random} Gehe Elemente in originaler Reihenfolge durch und packe zufällig ein, bis der Rucksack voll ist.
+      \end{enumerate}
+\end{enumerate}
+
+Zusätzlich wurden verschiedene Abbruchskriterien ausprobiert:
+\begin{enumerate}
+    \item Bezeichner: \textbf{iterimprove} Maximale Iteration erreicht \(\lor\) \(\text{letzte Verbesserung } = \frac{max~iterations}{5}\)
+    \item Bezeichner: \textbf{time} Zeitlimit erreicht (2 Sekunden)
+\end{enumerate}
+
+\section{Resultate}
+
+Für alle Konfigurationen wurden 100 Durchläufe gemacht und die Anzahl der maximalen Iterationen betrug immer 500.000. Für den Einsatz der Abkühlung \textit{recursive} galt immer, dass \(\alpha = 0.9\). \\
+
+Bei den Ergebnissen in der Tabelle \ref{tab:results} wurden einige Zellen aus Gründen der Übersicht freigelasse. Sie haben den selben Inhalt wie ihr letzter Vorgänger der eine Beschriftung hat. Dies kann beispielsweise in Spalte 1 und Zeile 3 beobachtet werden, diese hat denselben Wert (rucksack0010) wie in Slapte 1 und Zeile 1.
+
+\clearpage
+
+\begin{table}[!t]
+  \centering
+  \begin{tabular}{ | l | l | l | l | l | l | }
+    \hline
+        \textbf{Instanz} & \textbf{Abkühling} & \textbf{Startlösung} & \textbf{Abbruchkriterium} & \textbf{\(\frac{1}{100}\displaystyle\sum_{i=1}^{100} c_i^*\)} \\ \hline
+        % rucksack0010.txt
+        rucksack0010 & square & cheapest & iterimprove & 128.15 \\ \hline
+            &        & lightest &             & \textcolor{BrickRed}{119.68} \\ \hline
+            &        & random &               & \textcolor{OliveGreen}{148.09} \\ \hline
+            &        & cheapsest & time       & 134.43 \\ \hline
+           & recursive & cheapest &          & 130.77 \\ \hline
+           &           & lightest &          & 123.45 \\ \hline
+           &           & random &            & 141.31 \\ \hlinewd{3pt}
+        % rucksack0020a.txt
+        rucksack0020a & square & cheapest & iterimprove & \textcolor{OliveGreen}{88.12} \\ \hline
+             &        & lightest &             & \textcolor{BrickRed}{76.81} \\ \hline
+             &        & random &               & 68.84 \\ \hline
+             &        & cheapsest & time       & 86.52 \\ \hline
+            & recursive & cheapest &          & 86.71 \\ \hline
+            &           & lightest &          & 79.05 \\ \hline
+            &           & random &            & 68.54 \\ \hlinewd{3pt}
+        % rucksack0030.txt
+        rucksack0030 & square & cheapest & iterimprove & 164.74 \\ \hline
+            &        & lightest &             & \textcolor{OliveGreen}{182.14} \\ \hline
+            &        & random &               & 148.43 \\ \hline
+            &        & cheapsest & time       & 173.45 \\ \hline
+           & recursive & cheapest &          & 166.16 \\ \hline
+           &           & lightest &          & 174.93 \\ \hline
+           &           & random &            & \textcolor{BrickRed}{147.21} \\ \hlinewd{3pt}
+        % rucksack0050.txt
+        rucksack0050 & square & cheapest & iterimprove & 269.43 \\ \hline
+            &        & lightest &             & 277.48 \\ \hline
+            &        & random &               & 212.23 \\ \hline
+            &        & cheapsest & time       & 271.39 \\ \hline
+           & recursive & cheapest &          & \textcolor{OliveGreen}{281.88} \\ \hline
+           &           & lightest &          & 274.86 \\ \hline
+           &           & random &            & \textcolor{BrickRed}{195.65} \\ \hlinewd{3pt}
+        % rucksack0050.txt
+        rucksack0100a & square & cheapest & iterimprove & \textcolor{OliveGreen}{409.93} \\ \hline
+             &        & lightest &             & 376.28 \\ \hline
+             &        & random &               & 194.85 \\ \hline
+             &        & cheapsest & time       & 400.62 \\ \hline
+             & recursive & cheapest &          & 405.91 \\ \hline
+             &           & lightest &          & 376.85 \\ \hline
+             &           & random &            & \textcolor{BrickRed}{191.59} \\ \hline
+  \end{tabular}
+    \caption{Einsatz von Simulated Annealing für Binary Knapsack Instanzen}
+    \label{tab:results}
+\end{table}
+
+\section{Auswertung}
+
+TODO
+
+\end{document}
