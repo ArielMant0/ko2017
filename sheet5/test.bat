@@ -9,10 +9,10 @@ javac simulatedAnnealing\*.java
 
 @echo Doing %iterations% iterations for file %filename%
 
-IF EXIST result.txt DEL result.txt
+IF EXIST test.txt DEL test.txt
 
 FOR /L %%G IN (1, 1, %iterations%) DO (
-    %command% %filename% >> result.txt
+    %command% %filename% >> test.txt
 )
 
 @echo Done

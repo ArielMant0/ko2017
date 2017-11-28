@@ -6,23 +6,24 @@ public class Main {
 	private static final String usage = "Usage: [-v|--verbose] <filename>";
 
 	public static <SolutionType extends GenericSolution<?>> void runSolver(SolverInterface<SolutionType> solver, Instance instance, boolean binary) {
-		// System.out.println("=== " + solver.getClass().getName() + " ===");
+		System.out.println("=== " + solver.getClass().getName() + " ===");
 		long start = System.currentTimeMillis();
 		SolutionType solution = solver.solve(instance);
 		long end = System.currentTimeMillis();
-		// if (instance.getSize() <= 60) {
-		// 	System.out.println("solution = " + solution);
-		// }
-		System.out.println(solution.getValue() + " +");
-		// System.out.println("value = " + solution.getValue());
-		// System.out.println("weight = " + solution.getWeight());
-		// System.out.printf("time = %.3fs\n", (end - start) / 1000.0);
-		assert solution.getInstance() == instance
-		  : "Solution is for another instance!";
-		assert solution.isFeasible() : "Solution is not feasible!";
-		if (binary) {
-			assert solution.isBinary() : "Solution is not binary!";
+		
+		if (instance.getSize() <= 60) {
+			System.out.println("solution = " + solution);
 		}
+		
+		System.out.println(solution.getValue() + " +");
+
+		System.out.println("value = " + solution.getValue());
+		System.out.println("weight = " + solution.getWeight());
+		System.out.printf("time = %.3fs\n", (end - start) / 1000.0);
+		
+		assert solution.getInstance() == instance : "Solution is for another instance!";
+		assert solution.isFeasible() : "Solution is not feasible!";
+		assert !binary || solution.isBinary() : "Solution is not binary!";
 	}
 
 	public static <SolutionType extends GenericSolution<?>> void runSolver(SolverInterface<SolutionType> solver, Instance instance) {
@@ -41,12 +42,12 @@ public class Main {
 		case 1:
 			Instance instance = Reader.readInstance(args[args.length - 1]);
 
-			// System.out.println("###############################################");
-			// System.out.println("# Instance file: " + args[0]);
-			// System.out.println("# Number of items: " + instance.getSize());
-			// System.out.println("# Capacity of knapsack: " + instance.getCapacity());
-			// System.out.println("###############################################");
-			// System.out.println();
+			System.out.println("###############################################");
+			System.out.println("# Instance file: " + args[0]);
+			System.out.println("# Number of items: " + instance.getSize());
+			System.out.println("# Capacity of knapsack: " + instance.getCapacity());
+			System.out.println("###############################################");
+			System.out.println();
 			
 			runSolver(new SimulatedAnnealing(), instance);
 
