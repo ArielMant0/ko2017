@@ -25,7 +25,7 @@ public class SimulatedAnnealing implements SolverInterface<Solution> {
     
     // Which cooling function and which initial solution to use
     private static final byte DENOM = 0;
-    private static final byte INITIAL = 1;
+    private static final byte INITIAL = 0;
 
     private static final int CONSTANT = MAX_ITERATION / 2;
     

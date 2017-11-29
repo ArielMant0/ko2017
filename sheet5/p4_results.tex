@@ -64,7 +64,7 @@ Bei den Ergebnissen in Tabelle \ref{tab:results} wurden einige Zellen aus Gründ
         rucksack0020a & square & cheapest & iterimprove & 133 & 133 & 133 \\ \hline
         &             & lightest & & 133 & 133 & 133 \\ \hline
         &             & random & & 133 & 133 & 133 \\ \hline
-        &             & cheapest & time &  &  &  \\ \hline
+        &             & cheapest & time & 133 & 133 & 133 \\ \hline
         & log         & & iterimprove & 133 & 133 & 133 \\ \hline
         &             & lightest & & 133 & 133 & 133 \\ \hline
         &             & random & & 133 & 133 & 133 \\ \hlinewd{3pt}
@@ -72,23 +72,23 @@ Bei den Ergebnissen in Tabelle \ref{tab:results} wurden einige Zellen aus Gründ
         rucksack0030 & square & cheapest & iterimprove & 298.52 & 287 & 307 \\ \hline
         &            & lightest & & 297.96 & 286 & 307 \\ \hline
         &            & random & & \textcolor{BrickRed}{297.86} & 285 & 307 \\ \hline
-        &            & cheapest & time &  &  &  \\ \hline
+        &            & cheapest & time & \textcolor{OliveGreen}{306.94} & 304 & 307 \\ \hline
         & log        & & iterimprove & 298.42 & 287 & 307 \\ \hline
         &            & lightest & & 298.46 & 284 & 307 \\ \hline
-        &            & random & & \textcolor{OliveGreen}{299.08} & 285 & 307 \\ \hlinewd{3pt}
+        &            & random & & 299.08 & 285 & 307 \\ \hlinewd{3pt}
         % rucksack0050.txt
         rucksack0050 & square & cheapest & iterimprove & 446.43 & 419 & \textcolor{BrickRed}{476} \\ \hline
         &            & lightest & & 445.28 & 423 & 480 \\ \hline
-        &            & random & & \textcolor{OliveGreen}{446.57} & 414 & 482 \\ \hline
-        &            & cheapest & time &  &  &  \\ \hline
+        &            & random & & 446.57 & 414 & 482 \\ \hline
+        &            & cheapest & time & \textcolor{OliveGreen}{466.51} & 452 & 483 \\ \hline
         & log        & & iterimprove & 446.19 & 421 & \textcolor{OliveGreen}{484} \\ \hline
         &            & lightest & & 445.54 & 423 & \textcolor{OliveGreen}{484} \\ \hline
         &            & random & & \textcolor{BrickRed}{443.7} & 422 & 478 \\ \hlinewd{3pt}
         % rucksack0100a.txt
-        rucksack0100a & square & cheapest & iterimprove & \textcolor{OliveGreen}{609.07} & 581 & 659 \\ \hline
+        rucksack0100a & square & cheapest & iterimprove & 609.07 & 581 & 659 \\ \hline
         &             & lightest & & 607.25 & 570 & \textcolor{OliveGreen}{668} \\ \hline
         &             & random & & 607 & 568 & \textcolor{OliveGreen}{668} \\ \hline
-        &             & cheapest & time &  &  &  \\ \hline
+        &             & cheapest & time & \textcolor{OliveGreen}{632.93} & 605 & 665 \\ \hline
         & log         & & iterimprove & 608.76 & 578 & 662 \\ \hline
         &             & lightest & & 608.49 & 572 & \textcolor{BrickRed}{658} \\ \hline
         &             & random & & \textcolor{BrickRed}{605.35} & 568 & 666 \\ \hlinewd{3pt}
@@ -96,7 +96,7 @@ Bei den Ergebnissen in Tabelle \ref{tab:results} wurden einige Zellen aus Gründ
         rucksack0500 & square & cheapest & iterimprove & 6000 & 6000 & 6000 \\ \hline
         &            & lightest & & 6000 & 6000 & 6000 \\ \hline
         &            & random & & 6000 & 6000 & 6000 \\ \hline
-        &            & cheapest & time &  &  &  \\ \hline
+        &            & cheapest & time & 6000 & 6000 & 6000 \\ \hline
         & log        & & iterimprove & 6000 & 6000 & 6000 \\ \hline
         &            & lightest & & 6000 & 6000 & 6000 \\ \hline
         &            & random & & 6000 & 6000 & 6000 \\ \hlinewd{3pt}
@@ -104,7 +104,7 @@ Bei den Ergebnissen in Tabelle \ref{tab:results} wurden einige Zellen aus Gründ
         rucksack1000 & square & cheapest & iterimprove & 868.42 & 794 & 999 \\ \hline
         &            & lightest & & 864.46 & 808 & 964 \\ \hline
         &            & random & & \textcolor{BrickRed}{858} & 780 & 977 \\ \hline
-        &            & cheapest & time &  &  &  \\ \hline
+        &            & cheapest & time & 867.67 & 773 & 980 \\ \hline
         & log        & & iterimprove & \textcolor{OliveGreen}{876.3} & 779 & \textcolor{OliveGreen}{1007} \\ \hline
         &            & lightest & & 864.18 & 800 & 977 \\ \hline
         &            & random & & 858.75 & 789 & \textcolor{BrickRed}{950} \\ \hline
@@ -117,8 +117,10 @@ Bei den Ergebnissen in Tabelle \ref{tab:results} wurden einige Zellen aus Gründ
 
 \section{Auswertung}
 
-Die Resultate zeigen, dass sich die Ergebnisse der verschiedenen Strategien ud Kriterien nicht signifikant unterscheiden. Bei den kleinen Instanzen sind die Lösungswerte sogar identisch. Es ist zu erkennen, dass die logarithmische Abkühfunktion teilweise bessere Werte erzielt, der Differenz ist jedoch gering.
+Die Resultate zeigen, dass sich die Ergebnisse der verschiedenen Strategien nicht signifikant unterscheiden. Bei den kleinen Instanzen sind die Lösungswerte sogar identisch. Es ist zu erkennen, dass die logarithmische Abkühfunktion teilweise bessere Werte erzielt, der Differenz ist jedoch gering.
 
-Bei der Instanz \textit{rucksack0500} ist zu sehen, dass alle Ergebnisse identisch sind. Dies lässt sich eventuell auf die Struktur der Instanz-Daten zurückführen, da jedes Item einen Nutzen von 1 hat (\(c_i = w_i\)) und somit die Sortierungen weniger Unterschiede erzeugen.
+Bei den verschiedenen Abbruchkriterien zeigt sich, dass ein zeitbasierter Abbruch bei kleinen bis mittelgroßen Instanzen bessere Durchschnittswerte erzeugt, bei großen Instanzen ist kein besonderer Unterschied zu erkennen.
+
+Für die Instanz \textit{rucksack0500} ist zu sehen, dass alle Ergebnisse identisch sind. Dies lässt sich eventuell auf die Struktur der Instanz-Daten zurückführen, da jedes Item einen Nutzen von 1 hat (\(c_i = w_i\)) und somit die Sortierungen weniger Unterschiede erzeugen.
 
 \end{document}

@@ -15,8 +15,6 @@ public class Main {
 			System.out.println("solution = " + solution);
 		}
 		
-		System.out.println(solution.getValue() + " +");
-
 		System.out.println("value = " + solution.getValue());
 		System.out.println("weight = " + solution.getWeight());
 		System.out.printf("time = %.3fs\n", (end - start) / 1000.0);
