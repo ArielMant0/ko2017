@@ -1,4 +1,4 @@
-package tabusearch;
+package simulatedAnnealing;
 
 /**
  * Solution of a integer or binary knapsack problem
@@ -6,9 +6,6 @@ package tabusearch;
  * @author Stephan Beyer
  */
 public class Solution extends GenericSolution<Integer> {
-
-	private static final int MINUS_CONSTANT = 1000;
-
 	public Solution(Instance instance) {
 		super(instance);
 	}
@@ -31,16 +28,13 @@ public class Solution extends GenericSolution<Integer> {
 		assert sol.size() > item : "Item number " + item + " not found!";
 		assert sol.get(item) != null : "Item " + item + " not initialized in solution.";
 		
-		int itemCountDiff = quantity - sol.get(item);
-		int extraWeight = itemCountDiff * instance.getWeight(item);
-
-		if (solWeight + extraWeight > instance.getCapacity())
-			solValue = solValue > 0 ? solValue * -1 - extraWeight : solValue - extraWeight;
-		else
-			solValue += itemCountDiff * instance.getValue(item);
-
-		solWeight += extraWeight;
-		sol.set(item, quantity);
+		int extraWeight = (quantity - sol.get(item)) * instance.getWeight(item);
+		// If solution would be feasible, change values
+		if (solWeight + extraWeight <= instance.getCapacity()) {
+			solValue += (quantity - sol.get(item)) * instance.getValue(item);
+			solWeight += extraWeight;
+			sol.set(item, quantity);
+		}
 	}
 
 	/**
@@ -48,7 +42,7 @@ public class Solution extends GenericSolution<Integer> {
 	 */
 	@Override
 	public boolean isFeasible() {
-		return solWeight <= instance.getCapacity();
+		return getWeight() <= instance.getCapacity();
 	}
 
 	/**

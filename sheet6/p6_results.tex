@@ -1,0 +1,118 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{fullpage} % Package to use full page
+\usepackage{parskip} % Package to tweak paragraph skipping
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+
+\usepackage{palatino} % Use the Palatino font by default
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage[singlespacing]{setspace}
+
+\title{\vspace{-2cm}Tabusuche Resultate}
+\author{Franziska Becker}
+\date{05.12.2017}
+
+\makeatletter
+\def\hlinewd#1{
+  \noalign{\ifnum0=`}\fi\hrule \@height #1 \futurelet
+  \reserved@a\@xhline
+}
+\makeatother
+
+\begin{document}
+
+\maketitle
+
+\section{Parameter}
+
+Zum Speichern in der Tabuliste wurden folgende Attribute verwendet:
+\begin{enumerate}
+  \item \textbf{op:} Merkt sich ein Tupel bestehend aus dem Index des veränderten Elements und dem Zielfunktionswert.
+  \item \textbf{count:} Merkt sich die Anzahl mitgenommener Elemente und den zugehörigen Zielfunktionswert.
+\end{enumerate}
+
+Zwei verschiede wurden Abbruchskriterien ausprobiert:
+\begin{enumerate}
+    \item \textbf{iter:} Es wurden \(min\{ max\{ | items | \cdot 100, 100.000\}, 500.000\}\) Iterationen durchgeführt
+    \item \textbf{improve:} Die Lösung hat sich seit \(~\frac{max~iterations}{10}~\) Iterationen nicht verbessert
+\end{enumerate}
+
+Weiterhin wurden zwei Nachbarschaften getestet:
+\begin{enumerate}
+    \item \textbf{feasible:} Nur zulässige Lösungen sind erlaubt (first-fit or random decrease)
+    \item \textbf{infeasible:} Erlaube unzulässige Lösungen (flip random item) 
+\end{enumerate}
+
+\section{Resultate}
+
+Für alle Konfigurationen wurden 100 Durchläufe gemacht. Die Tabuliste hatte eine statische Größe von \(~\frac{max~iterations}{5}~\) und wurde jedes Mal wenn sie voll war auf eine Größe von \(\frac{2}{3}\) reduziert, indem das erste Drittel an Einträgen gelöscht wurde.
+
+Bei den Ergebnissen in Tabelle \ref{tab:results} wurden einige Zellen aus Gründen der Übersicht freigelassen. Dies bedeutet, dass sie den selben Inhalt wie ihr letzter Vorgänger, der eine Beschriftung hat, haben. Dies kann beispielsweise in Spalte 1 und Zeile 3 beobachtet werden, diese hat denselben Wert (rucksack0050) wie in Spalte 1 und Zeile 1.
+
+\clearpage
+
+\begin{table}[!t]
+  \centering
+  \begin{tabular}{ | l | l | l | l | l | l | l | l | }
+    \hline
+        \textbf{Instanz} & \textbf{Attribut} & \textbf{Nachbarschaft} & \textbf{Abbruchkriterium} & \textbf{\(\frac{1}{100}\displaystyle\sum_{i=1}^{100} c_i^*\)} & \textbf{Worst} & \textbf{Best} \\ \hline
+        % rucksack0050.txt
+        rucksack0050  & op    & feasible   & iter    & \color{OliveGreen}{483.76}  & 483 & \color{OliveGreen}{487} \\ \hline
+                      &       &            & improve & 483.56 & 483 & \color{OliveGreen}{487} \\ \hline
+                      &       & infeasible & iter    & 483.04 & 483 & \color{OliveGreen}{487} \\ \hline
+                      &       &            & improve & \color{BrickRed}{483} & 483 & \color{BrickRed}{483} \\ \hline
+                      & count & feasible   & iter    & 483.52 & 483 & \color{OliveGreen}{487} \\ \hline
+                      &       &            & improve & 483.48 & 483 & \color{OliveGreen}{487} \\ \hline
+                      &       & infeasible & iter    & \color{BrickRed}{483} & 483 & \color{BrickRed}{483} \\ \hline
+                      &       &            & improve & \color{BrickRed}{483} & 483 & \color{BrickRed}{483} \\ \hlinewd{3pt}
+        % rucksack0100a.txt
+        rucksack0100a & op    & feasible   & iter    & 704  & 704 & 704 \\ \hline
+                      &       &            & improve & 704  & 704 & 704  \\ \hline
+                      &       & infeasible & iter    & 704  & 704 & 704  \\ \hline
+                      &       &            & improve & 704  & 704 & 704 \\ \hline
+                      & count & feasible   & iter    & 704  & 704 & 704 \\ \hline
+                      &       &            & improve & 704  & 704 & 704 \\ \hline
+                      &       & infeasible & iter    & 704  & 704 & 704 \\ \hline
+                      &       &            & improve & 704  & 704 & 704 \\ \hlinewd{3pt}
+        % rucksack0500.txt
+        rucksack0500  & op    & feasible   & iter    & 59998 & 59998 & 59998 \\ \hline
+                      &       &            & improve & 59998 & 59998 & 59998 \\ \hline
+                      &       & infeasible & iter    & 59998 & 59998 & 59998 \\ \hline
+                      &       &            & improve & 59998 & 59998 & 59998 \\ \hline
+                      & count & feasible   & iter    & 59998 & 59998 & 59998 \\ \hline
+                      &       &            & improve & 59998 & 59998 & 59998 \\ \hline
+                      &       & infeasible & iter    & 59998 & 59998 & 59998 \\ \hline
+                      &       &            & improve & 59998 & 59998 & 59998 \\ \hlinewd{3pt}
+        % rucksack1000.txt
+        rucksack1000  & op    & feasible   & iter    & 1195 & 1195 & 1195 \\ \hline
+                      &       &            & improve & 1195 & 1195 & 1195 \\ \hline
+                      &       & infeasible & iter    & 1195 & 1195 & 1195 \\ \hline
+                      &       &            & improve & 1195 & 1195 & 1195 \\ \hline
+                      & count & feasible   & iter    & 1195 & 1195 & 1195 \\ \hline
+                      &       &            & improve & 1195 & 1195 & 1195 \\ \hline
+                      &       & infeasible & iter    & 1195 & 1195 & 1195 \\ \hline
+                      &       &            & improve & 1195 & 1195 & 1195 \\ \hlinewd{3pt}
+        % rucksack5000b.txt
+        rucksack5000b & op    & feasible   & iter    & - & 1793 & 1793 \\ \hline
+                      &       &            & improve & 1793 & 1793 & 1793 \\ \hline
+                      &       & infeasible & iter    & 1793 & 1793 & 1793 \\ \hline
+                      &       &            & improve & 1793 & 1793 & 1793 \\ \hline
+                      & count & feasible   & iter    & - & 1793 & 1793 \\ \hline
+                      &       &            & improve & 1793 & 1793 & 1793 \\ \hline
+                      &       & infeasible & iter    & 1793 & 1793 & 1793 \\ \hline
+                      &       &            & improve & 1793 & 1793 & 1793 \\ \hline
+  \end{tabular}
+    \caption{Einsatz von Tabusuche für Binary Knapsack Instanzen}
+    \label{tab:results}
+\end{table}
+
+\clearpage
+
+\section{Auswertung}
+
+Die Resultate zeigen, dass sich die Ergebnisse der verschiedenen Strategien nicht signifikant unterscheiden. Bei den kleinen Instanzen zeigen sich kleine Differenzen, bei denen die Nachbarschaft welche nur zulässige Lösungen erlaubt etwas besser abschneidet. Bei den großen Instanzen zeigt sich kein Unterschied.
+
+Es lässt sich jedoch noch sagen, dass im Hinblick auf die Ausführungsdauer des Algorithmus mehrere Unterschiede beobachtet werden konnte. Die Nachbarschaft \textit{feasible} war in der Regel langsamer als ihr Konkurrent, dasselbe gilt für das Attribut \textit{count} und das Abbruchkriterium \textit{iter}. Für die größte Instanz \textit{rucksack5000b} hat sich diese Eigenschaft besonder bemerkbar gemacht, was für Konfiguration 1 und 5 dazu führte, dass nicht alle 100 Durchläufe ausgeführt werden konnten.
+
+\end{document}
