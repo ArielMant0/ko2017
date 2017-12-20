@@ -1,0 +1,64 @@
+\documentclass[a4paper]{article}
+
+\usepackage{fullpage} % Package to use full page
+\usepackage{parskip} % Package to tweak paragraph skipping
+\usepackage{amsmath}
+\usepackage[utf8]{inputenc}
+
+\title{\vspace{-1.5cm}Kombinatorische Optimierung Blatt 8 - Ant Colony Optimization}
+\author{Franziska Becker}
+\date{20. Dezember 2017}
+
+\begin{document}
+
+\maketitle
+
+\section{Hyper-Parameter}
+
+\textbf{Abbruchkriterien:}
+
+\begin{enumerate}
+  \item \hspace{5.5mm}\textbf{maxiter} \(\rightarrow\) Beendet Algorithmus nach \(min\{ |elements| \cdot 100, 500.000\}\) Iterationen
+    \item \textbf{maxchange} \(\rightarrow\) Beendet Algorithmus nach \(\frac{max~iterations}{20}\) Iterationen, bei denen sich die maximale Differenz der Zielfunktionswerte über alle Ameisen weniger als \(\frac{|elements|}{15}\) unterschieden hat oder die maximale Iterationsanzahl erreicht wurde
+\end{enumerate}
+
+\textbf{Ameisenanzahlen:}
+
+\begin{enumerate}
+  \item \textbf{constant} \(\rightarrow\) Verwendet immer 500 Ameisen
+    \item \textbf{dynamic} \(\rightarrow\) Verwendet \(min\{ |elements| * 10, 10.000\}\)
+\end{enumerate}
+
+\section{Ergebnisse}
+
+\begin{table}[!h]
+  \centering
+  \begin{tabular}{ | l | l | l | l | l | l | }
+    \hline
+    \textbf{Instanz} & \textbf{Abbruchkriterium} & \textbf{Ameisenanzahl} & \textbf{\(\frac{1}{20}\displaystyle\sum_{i=1}^{20} c_i^*\)} & \textbf{Worst} & \textbf{Best} \\ \hline
+    tsp1.txt &   maxiter & constant & 5400 & 5400 & 5400 \\ \hline
+             &           & dynamic  & 5400 & 5400 & 5400 \\ \hline        
+             & maxchange & constant & 5400 & 5400 & 5400 \\ \hline        
+             &           & dynamic  & 5400 & 5400 & 5400 \\ \hline
+    tsp2.txt &   maxiter & constant & 1870 & 1870 & 1870 \\ \hline
+             &           & dynamic  & 1870 & 1870 & 1870 \\ \hline        
+             & maxchange & constant & 1870 & 1870 & 1870 \\ \hline        
+             &           & dynamic  & 1870 & 1870 & 1870 \\ \hline
+  tsp3.txt &   maxiter & constant & 4218 & 4218 & 4218 \\ \hline
+             &           & dynamic  & 4218 & 4218 & 4218 \\ \hline        
+             & maxchange & constant & 4218 & 4218 & 4218 \\ \hline        
+             &           & dynamic  & 4218 & 4218 & 4218 \\ \hline
+  \end{tabular}
+  \caption{Einsatz von Ant Colony Optimization für TSP-Instanzen}
+  \label{tab:results}
+\end{table}
+
+\section{Diskussion}
+
+Es ist zu erkennen, dass der Gebrauch verschiedener Parameter-Konfigurationen keine Unterschiede aufweist. Die einzige Diskrepanz war die Laufzeit der Konfiguraqtionen, wo zu sehen war, dass \textit{maxiter} schneller als \textit{maxchange} und \textit{constant} etwas schneller als \textit{dynamic} war.
+
+Im Bezug auf die Instanzen war das Lösen der Instanz \textit{tsp2.txt} am schnellsten, gefolgt von Instanz \textit{tsp3.txt} und zuletzt \textit{tsp1.txt}, welche (bei mehreren Durchläufen) wesentlich mehr Zeit benötigte. 
+
+Die Gleichheit der Parameterergebnisse lässt sich mit eventuell auf die geringen Instanzgrößen zurückführen.
+
+\end{document}
