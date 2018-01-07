@@ -1,0 +1,10 @@
+a)
+ZFW = 5275
+Hemden = 0 - Röcke = 23 - Hosen = 104
+Maschine1 = 0 - Maschine2 = 1
+
+b)
+ZFW = 4840
+Hemden = 0 - Röcke = 0 - Hosen = 114
+Maschine1 = 0 - Maschine2 = 1
+MachRöcke = 0 - MachHosen = 1
