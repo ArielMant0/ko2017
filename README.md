@@ -6,8 +6,8 @@ Programming exercise solutions for combinatorial optimization in the semester of
  
 | Theoretical | Practical  |
 | ----------: | ---------: |
-|   90 / 124  |  69.5 / 93 |  
-|     72%     |    74%     |
+| 103.5 / 142 |  75.5 / 99 |  
+|     72%     |    76%     |
 
 _______
 
@@ -71,12 +71,28 @@ _______
 
 | Theoretical | Practical  |  
 | ----------: | ---------: |  
-|    ? / ?    |   ? / ?    |  
-|        0%   |     0%     |
+|  13.5 / 18  |   6 / 6    |  
+|      75%    |    100%    |
 
 #### Sheet 10
 
 | Theoretical | Practical  |  
 | ----------: | ---------: |  
+|    ? / 23   |   0 / 0    |  
+|        0%   |    100%    |
+
+
+#### Sheet 11
+
+| Theoretical | Practical  |  
+| ----------: | ---------: |  
+|    ? / 21   |   ? / 0    |  
+|        0%   |    100%    |
+
+
+#### Sheet 12
+
+| Theoretical | Practical  |  
+| ----------: | ---------: |  
 |    ? / ?    |   ? / ?    |  
-|        0%   |     0%     |
+|       0%    |      0%    |
