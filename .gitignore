@@ -1,12 +1,14 @@
 # Compiled source #
 *.class
+*.exe
+
+# LP-Files #
+*.lp
+*.tbl
 
 # Documents #
 *.pdf
 *.odt
-
-# Archives #
-*.zip
 
 # Images #
 *.png
